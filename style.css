@@ -1,0 +1,133 @@
+/* Importing Google Font */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap");
+
+body {
+  font-family: "Roboto", sans-serif; /* Use Roboto font */
+  background-image: url("background.jpg");
+  background-size: cover;
+  background-attachment: fixed;
+  text-align: center;
+  padding-top: 20px;
+  margin: 0;
+}
+.poetsen-one-regular {
+  font-family: "Poetsen One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 30px;
+}
+
+h3 {
+  font-weight: 700;
+  color: #333;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(5, 50px);
+  grid-template-rows: repeat(5, 50px);
+  gap: 2px;
+  margin: 20px auto;
+  padding-left: 620px;
+
+  border-radius: 10px;
+}
+
+.cell {
+  background-color: #eee;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 5px;
+}
+.cell.on {
+  background-color: #ffcc00;
+}
+
+.btn {
+  margin: 10px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}
+
+.addendum {
+  max-width: 90%;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: lightpink;
+  border-radius: 10px;
+  text-align: left;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.addendum p {
+  margin: 10px 0;
+  font-size: 1rem;
+}
+
+footer {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: lightblue;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+footer p {
+  margin: 0; /* Remove default margin */
+  font-weight: bolder;
+}
+
+/* Styling for the dialog box */
+#helpDialog {
+  border: none; /* Remove default border */
+  border-radius: 10px; /* Rounded corners */
+  padding: 20px;
+  background-color: #f0f0f0; /* Light gray background */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  width: 60%;
+  height: 30%;
+  text-align: left;
+}
+
+#helpDialog h3 {
+  margin-top: 0; /* Remove top margin */
+  color: #333; /* Dark text color */
+  text-align: center;
+}
+
+#helpDialog ul {
+  margin: 0;
+  padding: 0;
+  list-style: none; /* Remove default list styling */
+}
+
+#helpDialog ul li {
+  margin-bottom: 10px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: none;
+  background: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  color: #ff0000; /* Change color on hover */
+}

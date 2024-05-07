@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lights Out Game</title>
+    <link rel="stylesheet" href="style.css"></link>
+  </head>
+  <body>
+    <h3 class="poetsen-one-regular ">Lights Out</h3>
+    <div class="container" id="grid"></div>
+    <button class="btn" id="restartBtn">New Game</button>
+    <button class="btn" id="helpBtn">Help</button>
+    <dialog id="helpDialog">
+      <button class="close-btn" id="closeBtn">&times;</button> <!-- Close button -->
+      <h3>How to Play Game?</h3>
+      <ul>
+          <li>1. Initially, the blocks will be filled randomly on some places by taking an sufficient amount of time we need to move the blocks one by one each other utill we complete all the blocks filled.</li>
+          <li>2. Once all the blocks are filled we will get an alert box with an message that "You Finished The Game Successfully!".</li>
+          <li>3. To complete this game we need to move the each block logically based on blocks which are appeared.</li>
+          <li>4. Press "New Game" to start a new game again from initial onwards.</li>
+      </ul>
+  </dialog>
+    <script>
+      const grid = document.getElementById("grid");
+      const restartBtn = document.getElementById("restartBtn");
+      const numRows = 5;
+      const numCols = 5;
+      let lights = [];
+
+      function initializeLights() {
+        for (let i = 0; i < numRows; i++) {
+          lights[i] = [];
+          for (let j = 0; j < numCols; j++) {
+            // Randomly decide whether the light is initially on or off
+            lights[i][j] = Math.random() < 0.5;
+          }
+        }
+        // Ensure that at least one light is initially turned on
+        if (lights.every((row) => row.every((light) => !light))) {
+          lights[Math.floor(Math.random() * numRows)][
+            Math.floor(Math.random() * numCols)
+          ] = true;
+        }
+      }
+
+      function createGrid() {
+        for (let i = 0; i < numRows; i++) {
+          for (let j = 0; j < numCols; j++) {
+            const cell = document.createElement("div");
+            cell.classList.add("cell");
+            cell.dataset.row = i;
+            cell.dataset.col = j;
+            if (lights[i][j]) {
+              cell.classList.add("on");
+            }
+            grid.appendChild(cell);
+          }
+        }
+      }
+
+      function toggleLight(row, col) {
+        lights[row][col] = !lights[row][col];
+        const cell = document.querySelector(
+          `.cell[data-row='${row}'][data-col='${col}']`
+        );
+        cell.classList.toggle("on");
+      }
+
+      function handleClick(event) {
+        const row = parseInt(event.target.dataset.row);
+        const col = parseInt(event.target.dataset.col);
+        toggleLight(row, col);
+        toggleNeighbors(row, col);
+        checkWin();
+      }
+
+      function toggleNeighbors(row, col) {
+        const directions = [
+          [0, 1],
+          [0, -1],
+          [1, 0],
+          [-1, 0],
+        ];
+        directions.forEach((dir) => {
+          const newRow = row + dir[0];
+          const newCol = col + dir[1];
+          if (
+            newRow >= 0 &&
+            newRow < numRows &&
+            newCol >= 0 &&
+            newCol < numCols
+          ) {
+            toggleLight(newRow, newCol);
+          }
+        });
+      }
+
+      function checkWin() {
+        const allOn = lights.every((row) => row.every((light) => light));
+        if (allOn) {
+          alert("You Finished the Game Successfully!");
+          initializeLights();
+          resetGrid();
+        }
+      }
+
+      function resetGrid() {
+        grid.innerHTML = "";
+        createGrid();
+        document.querySelectorAll(".cell").forEach((cell) => {
+          cell.addEventListener("click", handleClick);
+        });
+      }
+
+      initializeLights();
+      createGrid();
+      document.querySelectorAll(".cell").forEach((cell) => {
+        cell.addEventListener("click", handleClick);
+      });
+
+      restartBtn.addEventListener("click", function () {
+        initializeLights();
+        resetGrid();
+      });
+     
+
+        // Handle "Help" button click
+        const helpBtn = document.getElementById("helpBtn");
+        const helpDialog = document.getElementById("helpDialog");
+        const closeBtn = document.getElementById("closeBtn");
+
+        helpBtn.addEventListener("click", function() {
+            helpDialog.showModal(); // Show the dialog box
+        });
+
+        closeBtn.addEventListener("click", function() {
+            helpDialog.close(); // Close the dialog box
+        });
+    </script>
+    <div class="addendum">
+      <h3>Addendum: </h3>
+      <p>1. Here is the entire process of the game that how it gone a work the main thing about this game is to completely fill all the default boxes with the colors then we get an alert box with a message "You Finished the Game Successfully!". </p>
+      <p>2. Next, I created a board as an matrix format of 5*5 in that initially a random some of the empty boxes get filled the color.</p>
+      <p>3. We need to move the boxes logically untill we complete all empty boxes with the colors.</p>
+      <p>4. If we click the "New Game" button the entire game gets restarted from its initial state so, that user can start the game from starting onwards. and If we click the "Help" button the user get an dialog box with the Game Instructions on it how to play the game and with the close button.</p>
+      <p>5. In order to create a 5x5 grid, CSS grid layout needed to be used carefully. Aesthetics and usability depended on balancing the size of cells and spacing between them.</p>
+      <p>6. A random initial state of the lights ensured replayability. At least one light should be on at the beginning to add a sense of engagement.</p>
+      <p>7. As a result of the random starting state, it was challenging to achieve a balanced difficulty. In order to maintain a fair game challenge for players, at least one light was initially on and different setups were tested.</p>
+      <p>8. In order to toggle lights, we had difficulty implementing clear visual feedback. In the game, players' actions were immediately reflected by CSS classes used to control light states and manipulate DOM elements.</p>
+      <p>9. It was crucial to plan carefully the interface design along with event handling for each cell in order to create an intuitive interface that is responsive. An engaging and user-friendly game experience was achieved by ensuring smooth cell interactions and a responsive layout.</p>
+      <p>10. In order to identify when the player had won the game, all lights had to be turned off. After successfully confirming that all lights were off, the game offered immediate gratification and feedback by iterating over the grid.</p>
+    </div>
+  </body>
+  <footer>
+    <p>
+      Last updated:
+      <span id="lastModified"></span>
+    </p>
+  </footer>
+  <script type="text/javascript">
+    var x = document.lastModified;
+    document.getElementById("lastModified").textContent = x;
+  </script>
+</html>
